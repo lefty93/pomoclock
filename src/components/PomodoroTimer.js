@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
+import MenuButton from './MenuButton'
 
 function PomodoroTimer() {
-    const [time, setTime] = useState(25*60)
+    const [time, setTime] = useState(25 * 60)
     const [isRunning, setIsRunning] = useState(false)
     let startpauseaudio = new Audio('/audio/switch-1.wav')
     let resetaudio = new Audio('/audio/button-17.wav')
@@ -34,22 +35,22 @@ function PomodoroTimer() {
     }
 
     function formatTime(timeInSeconds) {
-      const minutes = Math.floor(timeInSeconds / 60);
-      const seconds = timeInSeconds % 60;
-      return `${minutes.toString().padStart(2, "0")}:${seconds
-        .toString()
-        .padStart(2, "0")}`;
+        const minutes = Math.floor(timeInSeconds / 60);
+        const seconds = timeInSeconds % 60;
+        return `${minutes.toString().padStart(2, "0")}:${seconds
+            .toString()
+            .padStart(2, "0")}`;
     }
 
-  return (
-      <>
-          <h1>Pomodoro Timer</h1>
-      <h2>{formatTime(time)}</h2>
-      <button onClick={handleStart}>{isRunning ? 'Pause' : 'Start'}</button>
-      <button onClick={handleReset}>Reset</button>
-    
-    </>
-  )
+    return (
+        <>
+            <MenuButton img1='/images/font-white.png' img2='/images/font-red.png' />
+            <h2>{formatTime(time)}</h2>
+            <button onClick={handleStart}>{isRunning ? 'Pause' : 'Start'}</button>
+            <button onClick={handleReset}>Reset</button>
+
+        </>
+    )
 }
 
 export default PomodoroTimer
