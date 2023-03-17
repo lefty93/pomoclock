@@ -1,3 +1,5 @@
+// TODO: Add short break (5 minutes) and long break (15 minutes)
+
 import React, { useState, useEffect } from 'react'
 import MenuButton from './MenuButton'
 
