@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 
 // icons
 import {
@@ -17,10 +17,11 @@ import {
 } from 'react-icons/io';
 
 function Controls({ audioRef,
-    progressBarRef,
     duration,
+    setDuration,
     setTimeProgress,
     tracks,
+    currentTrack,
     trackIndex,
     setTrackIndex,
     setCurrentTrack,
@@ -29,31 +30,82 @@ function Controls({ audioRef,
     const [volume, setVolume] = useState(60);
     const [muteVolume, setMuteVolume] = useState(false);
 
-    const handlePrevious = () => {
-        if (trackIndex === 0) {
-            let lastTrackIndex = tracks.length - 1;
-
-        }
-    }
     const togglePlayPause = () => {
         setIsPlaying((prev) => !prev);
     }
+
+    const playAnimationRef = useRef();
+
+    const repeat = useCallback(() => {
+        const currentTime = audioRef.current.currentTime;
+        setTimeProgress(currentTime);
+        
+        playAnimationRef.current = requestAnimationFrame(repeat)
+    }, [audioRef, setTimeProgress]);
+
+    useEffect(() => {
+        if (isPlaying) {
+            audioRef.current.play();
+        } else {
+            audioRef.current.pause();
+        }
+        playAnimationRef.current = requestAnimationFrame(repeat);
+    }, [isPlaying, audioRef, duration, repeat]);
+
+    const skipForward = () => {
+        audioRef.current.currentTime += 15;
+    };
+
+    const skipBackward = () => {
+        audioRef.current.currentTime -= 15;
+    }
+
+    const handlePrevious = () => {
+        if (trackIndex === 0) {
+            let lastTrackIndex = tracks.length - 1;
+            setTrackIndex(lastTrackIndex);
+            setCurrentTrack(tracks[lastTrackIndex]);
+        } else {
+            setTrackIndex((prev) => prev - 1);
+            setCurrentTrack(tracks[trackIndex - 1]);
+        }
+    };
+
+    useEffect(() => {
+        if (audioRef) {
+            audioRef.current.volume = volume / 100;
+            audioRef.current.muted = muteVolume;
+        }
+    }, [volume, audioRef, muteVolume])
+
+    const onLoadedMetadata = () => {
+        const seconds = audioRef.current.duration;
+        setDuration(seconds);
+        
+    };
+
     return (
         <div className="controls-wrapper">
+            <audio
+                src={currentTrack.src}
+                ref={audioRef}
+                onLoadedMetadata={onLoadedMetadata}
+                onEnded={handleNext}
+            />
             <div className="controls">
                 <button onClick={handlePrevious}>
                     <IoPlaySkipBackSharp />
                 </button>
-                <button>
+                <button onClick={skipBackward}>
                     <IoPlayBackSharp />
                 </button>
                 <button onClick={togglePlayPause}>
                     {isPlaying ? <IoPauseSharp /> : <IoPlaySharp />}
                 </button>
-                <button>
+                <button onClick={skipForward}>
                     <IoPlayForwardSharp />
                 </button>
-                <button>
+                <button onClick={handleNext}>
                     <IoPlaySkipForwardSharp />
                 </button>
                 <div className="volume">

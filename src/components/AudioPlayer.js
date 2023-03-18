@@ -1,6 +1,8 @@
-// TODO:MAKE MUSIC PLAYER
+// TODO:Customize the audio player
 import React, { useState, useRef } from 'react'
-import tracks from '../data/tracks';
+import { tracks } from '../data/tracks';
+
+// import components
 import Controls from './Controls'
 
 function AudioPlayer() {
@@ -12,7 +14,6 @@ function AudioPlayer() {
     
     // reference
     const audioRef = useRef();
-    const progressBarRef = useRef();
 
     const handleNext = () => {
         if (trackIndex >= tracks.length - 1) {
@@ -30,10 +31,12 @@ function AudioPlayer() {
           <Controls
               {...{
                   audioRef,
-                  progressBarRef,
                   duration,
                   setTimeProgress,
                   tracks,
+                  currentTrack,
+                  timeProgress,
+                  setDuration,
                   trackIndex,
                   setTrackIndex,
                   setCurrentTrack,
