@@ -1,4 +1,3 @@
-// TODO:Customize the audio player
 import React, { useState, useRef } from 'react'
 import { tracks } from '../data/tracks';
 

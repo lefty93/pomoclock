@@ -1,9 +1,9 @@
 import React from 'react'
 import './MenuButton.scss'
 
-function MenuButton({img1, img2}) {
+function MenuButton({img1, img2, onClick}) {
   return (
-      <a href="/#" className="link-wrapper">
+      <a href="/#" className="link-wrapper" onClick={onClick}>
           <span className="fallback">
               Menu
           </span>

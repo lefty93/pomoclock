@@ -27,7 +27,7 @@ function Controls({ audioRef,
     setCurrentTrack,
     handleNext, }) {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [volume, setVolume] = useState(60);
+    const [volume, setVolume] = useState(30);
     const [muteVolume, setMuteVolume] = useState(false);
 
     const togglePlayPause = () => {
@@ -116,6 +116,7 @@ function Controls({ audioRef,
                     ) : (
                         <IoMdVolumeHigh />
                     )}</button>
+                   
                 </div>
                 <input
                     type="range"

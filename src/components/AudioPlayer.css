@@ -1,0 +1,136 @@
+.controls-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #282828;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  padding: 0 20px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+.controls button {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  
+  cursor: pointer;
+}
+
+.controls button:hover {
+  opacity: 0.8;
+}
+
+.controls button:last-child {
+  margin-right: 0;
+}
+
+.volume {
+  position: relative;
+}
+
+.volume button {
+  margin-right: 16px;
+}
+
+.volume input[type="range"] {
+  position: absolute;
+  top: -7px;
+  left: -10px;
+  right: -10px;
+  bottom: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  appearance: none;
+  width: 100%;
+  height: 5px;
+}
+
+.volume input[type="range"]:focus {
+  outline: none;
+}
+
+.volume input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background-color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.volume input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.volume input[type="range"]::-moz-range-track {
+  background-color: transparent;
+  border: none;
+}
+
+.volume input[type="range"]::-ms-thumb {
+  width: 14px;
+  height: 14px;
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.volume input[type="range"]::-ms-track {
+  background-color: transparent;
+  border: none;
+}
+
+.volume input[type="range"]::-ms-fill-lower {
+  background-color: transparent;
+}
+
+.volume input[type="range"]::-ms-fill-upper {
+  background-color: transparent;
+}
+
+.volume input[type="range"]::-webkit-slider-runnable-track {
+  height: 5px;
+  background-color: #666;
+  border-radius: 5px;
+}
+
+.volume input[type="range"]::-moz-range-track {
+  height: 5px;
+  background-color: #666;
+  border-radius: 5px;
+}
+
+.volume input[type="range"]::-ms-track {
+  height: 5px;
+  background-color: #666;
+  border-radius: 5px;
+}
+
+.time {
+  font-size: 14px;
+}
+
+.time span {
+  margin-left: 8px;
+  margin-right: 8px;
+}

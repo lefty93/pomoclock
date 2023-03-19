@@ -1,29 +1,64 @@
-// TODO: Add short break (5 minutes) and long break (15 minutes)
-
-import React, { useState, useEffect } from 'react'
-import MenuButton from './MenuButton'
+import React, { useState, useEffect } from 'react';
 
 function PomodoroTimer() {
     const [time, setTime] = useState(25 * 60)
     const [isRunning, setIsRunning] = useState(false)
-    let startpauseaudio = new Audio('/audio/switch-1.wav')
-    let resetaudio = new Audio('/audio/button-17.wav')
+    const [lastClicked, setLastClicked] = useState('pomodoro')
+
+    const startpauseaudio = new Audio('/audio/switch-1.wav')
+    const resetaudio = new Audio('/audio/button-17.wav')
+    
 
     useEffect(() => {
-        let timerId;
-        if (isRunning && time > 0) {
-            timerId = setInterval(() => {
+        if (isRunning) {
+            const timerId = setInterval(() => {
                 setTime(prevTime => prevTime - 1);
             }, 1000)
-        } else if (time === 0) {
-            setIsRunning(false);
-        }
-        return () => clearInterval(timerId);
-    }, [isRunning, time]);
-
+            return () => clearInterval(timerId);
+        } 
+    }, [isRunning]);
+    
     useEffect(() => {
         document.title = `${formatTime(time)} - Focus Time`
-    })
+    });
+
+    useEffect(() => {
+        if (time === 0) {
+            const alarm = new Audio('/audio/alarm.mp3')
+            alarm.play();
+            setIsRunning(false);
+
+            if (lastClicked === 'pomodoro') {
+                setTime(5 * 60);
+                setLastClicked('short')
+                
+            } else {
+                setTime(25 * 60);
+                setLastClicked('pomodoro')
+                
+            }
+        }
+    }, [time, lastClicked])
+
+    // Switch mode by button
+    const handlePomodoro = () => {
+        setIsRunning(false);
+        setTime(25 * 60)
+        setLastClicked('pomodoro')
+        
+    }
+    const handleShort = () => {
+        setIsRunning(false)
+        setTime(5 * 60)
+        setLastClicked('short')
+        
+    }
+    const handleLong = () => {
+        setIsRunning(false);
+        setTime(15 * 60)
+        setLastClicked('long')
+        
+    }
 
     function handleStart() {
         setIsRunning(prevIsRunning => !prevIsRunning)
@@ -32,7 +67,7 @@ function PomodoroTimer() {
 
     function handleReset() {
         setIsRunning(false);
-        setTime(25 * 60)
+        setTime(lastClicked === 'short' ? 5 * 60 : lastClicked === 'long' ? 15 * 60 : 25 * 60)
         resetaudio.play()
     }
 
@@ -46,10 +81,22 @@ function PomodoroTimer() {
 
     return (
         <>
-            <MenuButton img1='/images/font-white.png' img2='/images/font-red.png' />
-            <h2>{formatTime(time)}</h2>
-            <button onClick={handleStart}>{isRunning ? 'Pause' : 'Start'}</button>
-            <button onClick={handleReset}>Reset</button>
+            <div className="pomodoro-container">
+                <div className="time-tag">
+                    <button onClick={handlePomodoro} className={lastClicked === 'pomodoro' ? 'active' : ''}>Pomodoro</button>
+                    <button onClick={handleShort} className={lastClicked === 'short' ? 'active' : ''}>Short Break</button>
+                    <button onClick={handleLong} className={lastClicked === 'long' ? 'active' : ''}>Long Break</button>
+                </div>
+                
+                <div className="time-display">
+                    <h2>{formatTime(time)}</h2>
+                </div>
+                <div className="time-control">
+                    <button onClick={handleStart}>{isRunning ? 'Pause' : 'Start'}</button>
+                    <button onClick={handleReset}>Reset</button>
+                </div>
+            </div>
+
 
         </>
     )
